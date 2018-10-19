@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: zmlcloud-eureka
+
+---
+server:
+  port: 8101
+spring:
+  profiles: zmlcloud-eureka-8101
+eureka:
+  instance:
+    hostname: ${spring.application.name}-${server.port}
+    instance-id: ${spring.application.name}-${server.port}
+  client:
+    register-with-eureka: false #false表示不向注册中心注册自己。
+    fetch-registry: false #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://zmlcloud-eureka-8102:8102/eureka/
+
+
+---
+server:
+  port: 8102
+spring:
+  profiles: zmlcloud-eureka-8102
+eureka:
+  instance:
+    hostname: ${spring.application.name}-${server.port}
+    instance-id: ${spring.application.name}-${server.port}
+  client:
+    register-with-eureka: false #false表示不向注册中心注册自己。
+    fetch-registry: false #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://zmlcloud-eureka-8101:8101/eureka/
